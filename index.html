@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atmospheric Refraction — Interactive Observatory</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+  <div id="boot-screen">
+    <div class="boot-mark">ATMOSPHERIC OBSERVATORY</div>
+    <div class="boot-bar"><div class="boot-fill" id="boot-fill"></div></div>
+    <div class="boot-status" id="boot-status">Initializing renderer…</div>
+  </div>
+
+  <div id="app" class="hidden">
+    <canvas id="scene-canvas"></canvas>
+
+    <!-- HUD: live refraction readout, the signature instrument -->
+    <div id="hud-readout" class="hud-panel">
+      <div class="hud-row"><span class="hud-label">SUN ALT (TRUE)</span><span class="hud-value" id="hud-true-alt">—</span></div>
+      <div class="hud-row"><span class="hud-label">SUN ALT (APPARENT)</span><span class="hud-value" id="hud-apparent-alt">—</span></div>
+      <div class="hud-row"><span class="hud-label">REFRACTION Δ</span><span class="hud-value accent" id="hud-delta">—</span></div>
+      <div class="hud-row"><span class="hud-label">DAYLIGHT EXTENSION</span><span class="hud-value" id="hud-extension">—</span></div>
+      <div class="hud-row"><span class="hud-label">PERFORMANCE</span><span class="hud-value" id="hud-perf">—</span></div>
+    </div>
+
+    <header id="top-bar">
+      <div class="brand">ATMOS<span class="accent">OBS</span></div>
+      <nav id="mode-nav"></nav>
+    </header>
+
+    <div id="view-root"></div>
+
+    <div id="main-menu" class="screen">
+      <h1 class="menu-title">Atmospheric<br><span class="accent">Refraction</span></h1>
+      <p class="menu-sub">An instrument for seeing why the sky lies to you.</p>
+      <p class="menu-progress hidden" id="menu-progress"></p>
+      <div class="menu-actions" id="menu-actions"></div>
+    </div>
+  </div>
+
+  <script>
+  window.addEventListener('error', (e) => {
+    const status = document.getElementById('boot-status');
+    if (status && !status.dataset.errored){
+      status.dataset.errored = '1';
+      status.textContent = `Failed to load: ${e.message}. Check console (F12) — likely a blocked CDN or running from file:// instead of a local server.`;
+      status.style.color = '#e05555';
+    }
+  });
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
